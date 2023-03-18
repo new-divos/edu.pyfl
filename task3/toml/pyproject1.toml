@@ -1,0 +1,5 @@
+[tool.poetry]
+name = "monkey.banana-project"
+version = "0.5.7"
+description = ""
+authors = ["Anton Shcherbak", "Ivan Ivanov"]
