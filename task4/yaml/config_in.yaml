@@ -1,0 +1,13 @@
+environment: development
+project_name: my_project
+database:
+  name: postgres
+  host: 127.0.0.1
+  port: 5432
+related_hosts:
+  feed:
+    host: ex.com
+    port: 8000
+  event:
+    host: ex2.com
+    port: 8001
