@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "login": "gafgsd",
+        "password": "gsdffsd",
+        "email": "sh@ya.ru",
+        "date": "2022-12-12",
+        "status": 2,
+        "is_moderator": false
+    },
+    {
+        "id": 2,
+        "login": "antory",
+        "password": "passworD2",
+        "email": "sh@ya.ru",
+        "date": "2021-10-15",
+        "status": 1,
+        "is_moderator": true
+    },
+    {
+        "id": 3,
+        "login": "mira",
+        "password": "miraA3",
+        "email": "mira@ya.ru",
+        "date": "0000-00-00",
+        "status": 1,
+        "is_moderator": false
+    },
+    {
+        "id": 4,
+        "login": "sasha",
+        "password": "passworD",
+        "email": "sash@ya.ru",
+        "date": "2021-10-15",
+        "status": 1,
+        "is_moderator": false
+    },
+    {
+        "id": 5,
+        "login": "masha",
+        "password": "password2",
+        "email": "masha@ya.ru",
+        "date": "2021-10-15",
+        "status": 1,
+        "is_moderator": false
+    }
+]

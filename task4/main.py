@@ -19,9 +19,6 @@ if __name__ == "__main__":
 
     data = yaml.safe_load(args["in"])
     if related_hosts := data.get("related_hosts"):
-        related_hosts["network"] = dict(
-            host="google.com",
-            port=8000
-        )
+        related_hosts["network"] = dict(host="google.com", port=8000)
 
     yaml.safe_dump(data, args["out"])
