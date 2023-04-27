@@ -4,6 +4,7 @@
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +36,16 @@ class User(BaseModel):
             raise ValueError("Password does not contain digits")
         elif not any(map(lambda c: c.isupper(), letters)):
             raise ValueError("Password does not contain upper case letters")
+
+        return v
+    
+    @validator("date")
+    def validate_date(cls, v: str | None) -> str | None:
+        if v is not None:
+            try:
+                _ = datetime.strptime(v, "%Y-%m-%d")
+            except:
+                ValueError("Illegal date")
 
         return v
 
