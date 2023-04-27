@@ -4,20 +4,29 @@
 import argparse
 import json
 import sys
-from datetime import datetime
+from pathlib import Path
 from typing import Any
 
-from pydantic import BaseModel, EmailStr, ValidationError, constr, validator
+from pydantic import (
+    BaseModel, 
+    EmailStr, 
+    StrictBool,
+    StrictInt,
+    ValidationError, 
+    constr,
+    parse_obj_as, 
+    validator
+)
 
 
 class User(BaseModel):
-    id: int
+    id: StrictInt
     login: constr(min_length=3, max_length=20)
-    password: constr(min_length=3, max_length=20)
+    password: constr(min_length=3, max_length=50)
     email: EmailStr | None
-    date: constr(regex=r"\d{4}-\d{2}-\d{2}") | None
+    date: constr(regex=r"^\d{4}-\d{2}-\d{2}$") | None
     status: int
-    is_moderator: bool | None
+    is_moderator: StrictBool | None
 
     @validator("password", pre=True)
     def validate_password(cls, v: True) -> str:
@@ -28,16 +37,6 @@ class User(BaseModel):
             raise ValueError("Password does not contain upper case letters")
 
         return v
-
-    @validator("date")
-    def validate_date(cls, v: str | None) -> datetime | None:
-        if v is not None:
-            try:
-                return datetime.strptime(v, "%Y-%m-%d")
-            except ValueError:
-                raise ValueError("Incorrect date format, should be YYYY-mm-dd")
-
-        return None
 
     @validator("status")
     def validate_status(cls, v: int) -> int:
@@ -59,10 +58,17 @@ def main(command_line: str | None = None) -> int:
 
     for user in users:
         try:
-            _ = User(**user)
+            _ = parse_obj_as(User, user)
             validation_results.append("OK")
         except ValidationError:
             validation_results.append("Failed")
+
+    log_path = Path(__file__).parent / "log"
+    log_path.mkdir(parents=True, exist_ok=True)
+
+    with open(log_path / "main.log", mode="w", encoding="utf-8") as flog:
+        for idx, row in enumerate(validation_results, 1):
+            print(f"{idx}: {row}", file=flog)
 
     print(", ".join(validation_results))
     return 0
