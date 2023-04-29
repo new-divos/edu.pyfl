@@ -11,8 +11,6 @@ from typing import Any
 from pydantic import (
     BaseModel, 
     EmailStr, 
-    StrictBool,
-    StrictInt,
     ValidationError, 
     constr,
     parse_obj_as, 
@@ -21,13 +19,13 @@ from pydantic import (
 
 
 class User(BaseModel):
-    id: StrictInt
+    id: int
     login: constr(min_length=3, max_length=20)
     password: constr(min_length=3, max_length=50)
     email: EmailStr | None
     date: constr(regex=r"^\d{4}-\d{2}-\d{2}$") | None
     status: int
-    is_moderator: StrictBool | None
+    is_moderator: bool | None
 
     @validator("password", pre=True)
     def validate_password(cls, v: True) -> str:
@@ -81,7 +79,7 @@ def main(command_line: str | None = None) -> int:
         for idx, row in enumerate(validation_results, 1):
             print(f"{idx}: {row}", file=flog)
 
-    print(", ".join(validation_results))
+    print(",".join(validation_results))
     return 0
 
 
