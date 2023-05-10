@@ -4,7 +4,7 @@
 import argparse
 import json
 import sys
-from datetime import datetime
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -23,27 +23,21 @@ class User(BaseModel):
     login: constr(min_length=3, max_length=20)
     password: constr(min_length=3, max_length=50)
     email: EmailStr | None
-    date: constr(regex=r"^\d{4}-\d{2}-\d{2}$") | None
+    date: date | None
     status: int
     is_moderator: bool | None
 
-    @validator("password", pre=True)
-    def validate_password(cls, v: True) -> str:
-        letters = set(v)
-        if not any(map(lambda c: c.isdigit(), letters)):
+    @validator("password")
+    def validate_password_must_contain_digit(cls, v: str) -> str:
+        if not any([c.isdigit() for c in v]):
             raise ValueError("Password does not contain digits")
-        elif not any(map(lambda c: c.isupper(), letters)):
-            raise ValueError("Password does not contain upper case letters")
-
+        
         return v
     
-    @validator("date")
-    def validate_date(cls, v: str | None) -> str | None:
-        if v is not None:
-            try:
-                _ = datetime.strptime(v, "%Y-%m-%d")
-            except:
-                ValueError("Illegal date")
+    @validator("password")
+    def validate_password_must_contain_upper_case(cls, v: str) -> str:
+        if not any([c.isupper() for c in v]):
+            raise ValueError("Password does not contain upper case letters")
 
         return v
 
