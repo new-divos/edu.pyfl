@@ -9,12 +9,12 @@ from pathlib import Path
 from typing import Any
 
 from pydantic import (
-    BaseModel, 
-    EmailStr, 
-    ValidationError, 
+    BaseModel,
+    EmailStr,
+    ValidationError,
     constr,
-    parse_obj_as, 
-    validator
+    parse_obj_as,
+    validator,
 )
 
 
@@ -31,9 +31,9 @@ class User(BaseModel):
     def validate_password_must_contain_digit(cls, v: str) -> str:
         if not any([c.isdigit() for c in v]):
             raise ValueError("Password does not contain digits")
-        
+
         return v
-    
+
     @validator("password")
     def validate_password_must_contain_upper_case(cls, v: str) -> str:
         if not any([c.isupper() for c in v]):
